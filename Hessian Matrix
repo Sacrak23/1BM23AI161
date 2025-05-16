@@ -1,0 +1,68 @@
+HESSIAN MATRIX 2 VARIABLES
+from sympy import *
+x,y=symbols('x y')
+f=x**2+y**2-4*x+2*y
+fx=diff(f,x)
+fy=diff(f,y)
+solution = solve([Eq(fx, 0), Eq(fy, 0)], (x, y))
+print(solution)
+H=Matrix(([(diff(fx,x)),diff(fx,y)],[(diff(fy,x)),diff(fy,y)]))
+print("Hessian matrix:")
+display(H)
+eigenvalues = list(H.eigenvals())
+print("\nEigenvalues of the Hessian matrix:")
+print(eigenvalues)
+if all(ev > 0 for ev in eigenvalues):
+    print("Local minimum")
+elif all(ev < 0 for ev in eigenvalues):
+    print("Local maximum")
+elif any(ev == 0 for ev in eigenvalues):
+    print("Test inconclusive")
+else:
+    print("Saddle point")
+
+print("\nValue of f at critical point:")
+x_val, y_val = solution[x], solution[y]
+f_critical = f.subs({x: x_val, y: y_val})
+print(f_critical)
+
+
+HESSIAN MATRIX 3 VARIABLES
+from sympy import *
+
+x, y, z = symbols('x y z')
+f = x**2 + y**2 + z**2 + x*y + y*z + z*x
+
+fx = diff(f, x)
+fy = diff(f, y)
+fz = diff(f, z)
+
+solution = solve([Eq(fx, 0), Eq(fy, 0), Eq(fz, 0)], (x, y, z))
+print("Critical point(s):", solution)
+
+H = Matrix([
+    [diff(f, x, x), diff(f, x, y), diff(f, x, z)],
+    [diff(f, y, x), diff(f, y, y), diff(f, y, z)],
+    [diff(f, z, x), diff(f, z, y), diff(f, z, z)],
+])
+
+print("\nHessian matrix:")
+pprint(H)
+
+eigenvalues = list(H.eigenvals().keys())
+print("\nEigenvalues of the Hessian matrix:")
+print(eigenvalues)
+
+if all(ev > 0 for ev in eigenvalues):
+    print("Local minimum")
+elif all(ev < 0 for ev in eigenvalues):
+    print("Local maximum")
+elif any(ev == 0 for ev in eigenvalues):
+    print("Test inconclusive")
+else:
+    print("Saddle point")
+
+print("\nValue of f at critical point:")
+x_val, y_val, z_val = solution[x], solution[y], solution[z]
+f_critical = f.subs({x: x_val, y: y_val, z: z_val})
+print(f_critical)
